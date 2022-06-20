@@ -1,6 +1,6 @@
 import React from 'react'
 
-const customInput = ({classes, htmlFor, label, inputId, inputType, onchange}) => {
+const CustomInput = ({classes, htmlFor, label, inputId, inputType, onchange, placeholder}) => {
     return (
         <div className={`${classes}`}>
             <label htmlFor={htmlFor}>{label}</label>
@@ -10,9 +10,10 @@ const customInput = ({classes, htmlFor, label, inputId, inputType, onchange}) =>
                 onChange={(event) => onchange(event.target.value)}
                 className='form-control'
                 autoComplete='off'
+                placeholder={placeholder}
             />
         </div>
     )
 }
 
-export default customInput
+export default CustomInput

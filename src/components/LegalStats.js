@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import LegalStatsTable from './LegalStatsTable'
 import {useParams} from 'react-router-dom'
 import axios from 'axios'
+import XMLExport from "../utils/xmlExport"
 
 const LegalStats = () => {
   const { id } = useParams();
@@ -68,6 +69,90 @@ const LegalStats = () => {
   const handleLogout = () => {
     localStorage.removeItem('loggedIn');
     window.location.href = '/';
+  }
+
+  const dataToXml = [
+    {
+      f86_2031_certificationautorisation: certificationAutorisation,
+      f86_2055_begindate1: beginDate1,
+      f86_2056_enddate1: endDate1,
+      f86_2059_totaalcontrol: totalControl,
+      f86_2060_amount1: amount1,
+      f86_2061_amount2: amount2,
+      f86_2062_amount3: amount3,
+      f86_2063_amount4: amount4,
+      f86_2064_totalamount: totalAmount,
+      f86_2093_begindate2: beginDate2,
+      f86_2100_certifierpostnr: certifyPostalCode,
+      f86_2101_childcountry: country,
+      f86_2102_childaddress: address,
+      f86_2106_childname: childName,
+      f86_2107_childfirstname: childFirstName,
+      f86_2109_certifiermunicipality: BCENumber,
+      f86_2110_numberofday1: numberOfDay1,
+      f86_2111_dailytarif1: dailyTarif1,
+      f86_2113_numberofday2: numberOfDay2,
+      f86_2115_dailytarif2: dailyTarif2,
+      f86_2116_numberofday3: numberOfDay3,
+      f86_2117_dailytarif3: dailyTarif3,
+      f86_2119_numberofday4: numberOfDay4,
+      f86_2120_dailytarif4: dailyTarif4,
+      f86_2139_childpostnr: childPostalCode,
+      f86_2140_childmunicipality: childMunicipality,
+      f86_2144_enddate2: endDate2,
+      f86_2153_nnchild: nnChild,
+      f86_2154_certifiermunicipality: certifierMunicipality,
+      f86_2155_certifiername: certifierName,
+      f86_2156_certifieradres: certifierAddress,
+      f86_2157_begindate3: beginDate3,
+      f86_2158_enddate3: endDate3,
+      f86_2161_begindate4: beginDate4,
+      f86_2162_enddate4: endDate4,
+      f86_2163_childbirthdate: childBirthDate,
+      f86_2164_beginvalidatycertification: beginValidatyCertification,
+      f86_2171_endvalidatycertification: endValidatyCertification,
+    }
+  ]
+
+  const fieldsAsObjects = {
+    f86_2031_certificationautorisation: "f86_2031_certificationautorisation",
+    f86_2055_begindate1: "f86_2055_begindate1",
+    f86_2056_enddate1: "f86_2056_enddate1",
+    f86_2059_totaalcontrol: "f86_2059_totaalcontrol",
+    f86_2060_amount1: "f86_2060_amount1",
+    f86_2061_amount2: "f86_2061_amount2",
+    f86_2062_amount3: "f86_2062_amount3",
+    f86_2063_amount4: "f86_2063_amount4",
+    f86_2064_totalamount: "f86_2064_totalamount",
+    f86_2093_begindate2: "f86_2093_begindate2",
+    f86_2100_certifierpostnr: "f86_2100_certifierpostnr",
+    f86_2101_childcountry: "f86_2101_childcountry",
+    f86_2102_childaddress: "f86_2102_childaddress",
+    f86_2106_childname: "f86_2106_childname",
+    f86_2107_childfirstname: "f86_2107_childfirstname",
+    f86_2109_certifiermunicipality: "f86_2109_certifiermunicipality",
+    f86_2110_numberofday1: "f86_2110_numberofday1",
+    f86_2111_dailytarif1: "f86_2111_dailytarif1",
+    f86_2113_numberofday2: "f86_2113_numberofday2",
+    f86_2115_dailytarif2: "f86_2115_dailytarif2",
+    f86_2116_numberofday3: "f86_2116_numberofday3",
+    f86_2117_dailytarif3: "f86_2117_dailytarif3",
+    f86_2119_numberofday4: "f86_2119_numberofday4",
+    f86_2120_dailytarif4: "f86_2120_dailytarif4",
+    f86_2139_childpostnr: "f86_2139_childpostnr",
+    f86_2140_childmunicipality: "f86_2140_childmunicipality",
+    f86_2144_enddate2: "f86_2144_enddate2",
+    f86_2153_nnchild: "f86_2153_nnchild",
+    f86_2154_certifiermunicipality: "f86_2154_certifiermunicipality",
+    f86_2155_certifiername: "f86_2155_certifiername",
+    f86_2156_certifieradres: "f86_2156_certifieradres",
+    f86_2157_begindate3: "f86_2157_begindate3",
+    f86_2158_enddate3: "f86_2158_enddate3",
+    f86_2161_begindate4: "f86_2161_begindate4",
+    f86_2162_enddate4: "f86_2162_enddate4",
+    f86_2163_childbirthdate: "f86_2163_childbirthdate",
+    f86_2164_beginvalidatycertification: "f86_2164_beginvalidatycertification",
+    f86_2171_endvalidatycertification: "f86_2171_endvalidatycertification",
   }
 
 
@@ -493,6 +578,7 @@ const LegalStats = () => {
               </div>
             </div>
         </div> 
+      <XMLExport data={dataToXml} fields={fieldsAsObjects} />
     </div>
   )
 }

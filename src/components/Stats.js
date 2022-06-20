@@ -5,6 +5,7 @@ import { IoIosTrash } from 'react-icons/io';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import Footer from './Footer';
 import Spinner from './Spinner';
+import CustomInput from '../utils/CustomInput';
 
 const Stats = () => {
     const [childs, setChild] = useState([]);
