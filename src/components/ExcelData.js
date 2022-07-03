@@ -13,7 +13,7 @@ const ExcelData = () => {
   const [goodJsonData, setGoodJsonData] = useState();
   //console.log('items', items);
   //console.log('json Data', jsonData);
-  //console.log('good json Data', goodJsonData);
+  console.log('good json Data', goodJsonData);
 
   const readExcel = (file) => {
     const promise = new Promise((resolve, reject) => {
@@ -54,7 +54,7 @@ const ExcelData = () => {
     e.preventDefault();
 
     await axios
-      .post('http://localhost:5001/record/addAll', goodJsonData)
+      .post('http://localhost:5001/record/addAll', jsonData)
       .then((response) => console.log(response.data));
   }
 
@@ -128,19 +128,21 @@ const ExcelData = () => {
             <th scope='col'>Surname</th>
             <th scope='col'>Name</th>
             <th scope='col'>DateOfBirth</th>
-            <th scope='col'>School</th>
-            <th scope='col'>Level</th>
-            <th scope='col'>Address</th>
-            <th scope='col'>Contact1</th>
+            {/* <th scope='col'>School</th>
+            <th scope='col'>Level</th> */}
+            <th scope='col'>Street</th>
+            <th scope='col'>Postal Code</th>
+            <th scope='col'>City</th>
+            {/* <th scope='col'>Contact1</th> */}
             <th scope='col'>Tel:1</th>
-            <th scope='col'>Contact2</th>
+            {/* <th scope='col'>Contact2</th>
             <th scope='col'>Tel:2</th>
-            <th scope='col'>Allergies</th>
+            <th scope='col'>Allergies</th> */}
             <th scope='col'>Email</th>
-            <th scope='col'>ParentRemarks</th>
+            {/* <th scope='col'>ParentRemarks</th>
             <th scope='col'>TeamRemarks</th>
             <th scope='col'>Balance</th>
-            <th scope='col'>Social</th>
+            <th scope='col'>Social</th> */}
             <th></th>
             <th></th>
           </tr>
@@ -152,19 +154,21 @@ const ExcelData = () => {
               <td>{d.surname}</td>
               <td>{d.name}</td>
               <td>{d.dateOfBirth}</td>
-              <td>{d.school}</td>
-              <td>{d.level}</td>
-              <td>{d.address}</td>
-              <td>{d.contact1}</td>
+              {/* <td>{d.school}</td>
+              <td>{d.level}</td> */}
+              <td>{d.street}</td>
+              <td>{d.postalCode}</td>
+              <td>{d.city}</td>
+              {/* <td>{d.contact1}</td> */}
               <td>{d.tel1}</td>
-              <td>{d.contact2}</td>
+              {/* <td>{d.contact2}</td>
               <td>{d.tel2}</td>
-              <td>{d.allergies}</td>
+              <td>{d.allergies}</td> */}
               <td>{d.email}</td>
-              <td>{d.parentRemarks}</td>
+              {/* <td>{d.parentRemarks}</td>
               <td>{d.teamRemarks}</td>
               <td>{d.balance}</td>
-              <td>{d.social}</td>
+              <td>{d.social}</td> */}
               <td>
                 <Link to={'/edit/'}>
                   {' '}

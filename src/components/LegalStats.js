@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react'
-import LegalStatsTable from './LegalStatsTable'
+import React, {memo, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import axios from 'axios'
 import XMLExport from "../utils/xmlExport"
@@ -7,8 +6,6 @@ import XMLExport from "../utils/xmlExport"
 const LegalStats = () => {
   const { id } = useParams();
   
-  //console.log("child: ", id)
-
   const [certificationAutorisation, setCertificationAutorisation ] = useState("")
   const [beginDate1, setBeginDate1] = useState("")
   const [endDate1, setEndDate1] = useState("")
@@ -111,9 +108,12 @@ const LegalStats = () => {
       f86_2163_childbirthdate: childBirthDate,
       f86_2164_beginvalidatycertification: beginValidatyCertification,
       f86_2171_endvalidatycertification: endValidatyCertification,
-    }
+    },
   ]
 
+    dataToXml.map(item => (
+      console.log("Items: ", item)
+    ))
   const fieldsAsObjects = {
     f86_2031_certificationautorisation: "f86_2031_certificationautorisation",
     f86_2055_begindate1: "f86_2055_begindate1",
@@ -184,7 +184,7 @@ const LegalStats = () => {
                 </select>
               </div>
               <div className='col-md-3 col-sm-6'>
-                <label  htmlFor='beginDate1'>Begin Date 1</label>
+                <label  htmlFor='beginDate1'>Begin Date week 1</label>
                 <input
                   id='beginDate1'
                   type='date'
@@ -194,7 +194,7 @@ const LegalStats = () => {
                 />
               </div>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='endDate1'>End Date 1</label>
+                <label htmlFor='endDate1'>End Date week 1</label>
                 <input
                   id='endDate1'
                   type='date'
@@ -268,7 +268,7 @@ const LegalStats = () => {
             </div>
             <div className='row mt-5'>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='beginDate2'>Begin Date 2</label>
+                <label htmlFor='beginDate2'>Begin Date week 2</label>
                 <input
                   id='beginDate2'
                   type='date'
@@ -345,7 +345,7 @@ const LegalStats = () => {
             </div>
             <div className='row mt-5'>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='numberOfDay1'>Number Of Day 1</label>
+                <label htmlFor='numberOfDay1'>Number Of Days week 1</label>
                 <input
                   id='numberOfDay1'
                   type='text'
@@ -356,16 +356,21 @@ const LegalStats = () => {
               </div>
               <div className='col-md-3 col-sm-6'>
                 <label htmlFor='dailyTarif1'>Daily Tarif 1</label>
-                <input
+                <select
                   id='dailyTarif1'
                   type='text'
                   onChange={(event) => setDailyTarif1(event.target.value)}
                   className='form-control'
-                  autoComplete='off'
-                />
+                >
+                  <option selected value=''>
+                    Select an option
+                  </option>
+                  <option value='2€'>2€</option>
+                  <option value='4€'>4€</option>
+                </select>
               </div>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='numberOfDay2'>Number Of Day 2</label>
+                <label htmlFor='numberOfDay2'>Number Of Days week 2</label>
                 <input
                   id='numberOfDay2'
                   type='text'
@@ -376,16 +381,21 @@ const LegalStats = () => {
               </div>
               <div className='col-md-3 col-sm-6'>
                 <label htmlFor='dailyTarif2'>Daily Tarif 2</label>
-                <input
+                <select
                   id='dailyTarif2'
                   type='text'
                   onChange={(event) => setDailyTarif2(event.target.value)}
                   className='form-control'
-                  autoComplete='off'
-                />
+                >
+                  <option selected value=''>
+                    Select an option
+                  </option>
+                  <option value='2€'>2€</option>
+                  <option value='4€'>4€</option>
+                </select>
               </div>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='numberOfDay3'>Number Of Day 3</label>
+                <label htmlFor='numberOfDay3'>Number Of Days week 3</label>
                 <input
                   id='numberOfDay3'
                   type='text'
@@ -396,23 +406,33 @@ const LegalStats = () => {
               </div>
               <div className='col-md-3 col-sm-6'>
                 <label htmlFor='dailyTarif3'>Daily Tarif 3</label>
-                <input
+                <select
                   id='dailyTarif3'
                   type='text'
                   onChange={(event) => setDailyTarif3(event.target.value)}
                   className='form-control'
-                  autoComplete='off'
-                />
+                >
+                  <option selected value=''>
+                    Select an option
+                  </option>
+                  <option value='2€'>2€</option>
+                  <option value='4€'>4€</option>
+                </select>
               </div>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='numberOfDay4'>Number Of Day 4</label>
-                <input
+                <label htmlFor='numberOfDay4'>Number Of Days 4</label>
+                <select
                   id='numberOfDay4'
                   type='text'
                   onChange={(event) => setNumberOfDay4(event.target.value)}
                   className='form-control'
-                  autoComplete='off'
-                />
+                >
+                  <option selected value=''>
+                    Select an option
+                  </option>
+                  <option value='2€'>2€</option>
+                  <option value='4€'>4€</option>
+                </select>
               </div>
               <div className='col-md-3 col-sm-6'>
                 <label htmlFor='dailyTarif4'>Daily Tarif 4</label>
@@ -449,7 +469,7 @@ const LegalStats = () => {
                 />
               </div>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='endDate2'>End Date 2</label>
+                <label htmlFor='endDate2'>End Date week 2</label>
                 <input
                   id='endDate2'
                   type='date'
@@ -504,7 +524,7 @@ const LegalStats = () => {
             </div>
             <div className='row mt-5'>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='beginDate3'>Begin Date 3</label>
+                <label htmlFor='beginDate3'>Begin Date week 3</label>
                 <input
                   id='beginDate3'
                   type='date'
@@ -514,7 +534,7 @@ const LegalStats = () => {
                 />
               </div>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='endDate3'>End Date 3</label>
+                <label htmlFor='endDate3'>End Date week 3</label>
                 <input
                   id='endDate3'
                   type='date'
@@ -524,7 +544,7 @@ const LegalStats = () => {
                 />
               </div>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='beginDate4'>Begin Date 4</label>
+                <label htmlFor='beginDate4'>Begin Date week 4</label>
                 <input
                   id='beginDate4'
                   type='date'
@@ -534,7 +554,7 @@ const LegalStats = () => {
                 />
               </div>
               <div className='col-md-3 col-sm-6'>
-                <label htmlFor='endDate4'>End Date 4</label>
+                <label htmlFor='endDate4'>End Date week 4</label>
                 <input
                   id='endDate4'
                   type='date'
@@ -544,7 +564,7 @@ const LegalStats = () => {
                 />
               </div>
             </div>
-            <div className='row mt-5'>
+            <div className='row mt-5 mb-5'>
               <div className='col-md-4 col-sm-6'>
                 <label htmlFor='childBirthDate'>Child Birth Date</label>
                 <input
@@ -567,7 +587,7 @@ const LegalStats = () => {
                 />
               </div>
               <div className='col-md-4 col-sm-6'>
-                <label htmlFor='endValidCertif'>end Validaty Certification</label>
+                <label htmlFor='endValidCertif'>End Validaty Certification</label>
                 <input
                   id='endValidCertif'
                   type='date'
@@ -577,10 +597,11 @@ const LegalStats = () => {
                 />
               </div>
             </div>
+            <XMLExport data={dataToXml} fields={fieldsAsObjects} />
         </div> 
-      <XMLExport data={dataToXml} fields={fieldsAsObjects} />
+      
     </div>
   )
 }
 
-export default LegalStats
+export default memo(LegalStats)

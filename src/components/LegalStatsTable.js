@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, memo} from 'react'
 import { IoIosCreate } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
@@ -21,8 +21,6 @@ const LegalStatsTable = () => {
         }
     },[loggedIn])
     
-    //setAlreadyLogged(JSON.parse(localStorage.getItem("loggedIn")))
-
     const [childs, setChild] = useState([]);
     const [filteredData, setFilteredData] = useState(childs);
 
@@ -181,4 +179,4 @@ const LegalStatsTable = () => {
   )
 }
 
-export default LegalStatsTable
+export default memo(LegalStatsTable)

@@ -33,40 +33,139 @@ const Edit = () => {
     const [childSSN, setChildSSN] = useState("");
     const [email, setEmail] = useState("");
     const [allergies, setAllergies] = useState("");
+    const [medicals, setMedical] = useState("");
     const [parentRemarks, setParentRemarks] = useState("");
     const [teamRemarks, setTeamRemarks] = useState("");
+    const [week1, setWeek1] = useState('');
+    const [week2, setWeek2] = useState('');
+    const [week3, setWeek3] = useState('');
+    const [week4, setWeek4] = useState('');
     const [presence, setPresence] = useState("");
     const [balance, setBalance] = useState(0);
     const [social, setSocial] = useState("");
     const [addBalance, setAddBalance] = useState(0);
+    const [isChecked, setIsChecked] = useState(false);
+
+  //console.log("isChecked: ", isChecked)
+  //console.log("medical: ", medicals)
+
+  const handleChecked = (e) => {
+    if (e.target.checked) {
+      setMedical("checked")
+      setIsChecked(!isChecked)
+    } else {
+      setMedical("not-checked")
+      setIsChecked(!isChecked)
+    }
+  }
 
     useEffect(() => {
       axios
         .get(`https://speelpleinapi.herokuapp.com/record/${id}`)
         .then((response) => {
-          // console.log('response: ', response);
+          console.log('response: ', response.data.medicals);
+        
           setUsername(response.data.surname);
           setName(response.data.name);
           setDateOfBirth(response.data.dateOfBirth);
-          setSchool(response.data.school);
-          setLevel(response.data.level);
+          if(response.data.school === null){
+            setSchool("")
+          }else {
+            setSchool(response.data.school);
+          }
+          
+          if (response.data.level === null) {
+            setLevel("")
+          } else {
+            setLevel(response.data.school);
+          }
           setStreet(response.data.street);
           setPostalCode(response.data.postalCode);
           setCity(response.data.city);
-          setContact1(response.data.contact1);
+
+          if (response.data.contact1 === null) {
+            setContact1("")
+          } else {
+            setContact1(response.data.contact1);
+          }
+
           setTel1(response.data.tel1);
-          setContact2(response.data.contact2);
-          setTel2(response.data.tel2);
-          setParentSSN(response.data.parentSSN);
-          setParentDOB(response.data.parentDOB);
-          setChildSSN(response.data.childSSN);
+
+          if (response.data.contact2 === null) {
+            setContact2("")
+          } else {
+            setContact2(response.data.contact2);
+          }
+
+          if (response.data.tel2 === null) {
+            setTel2("")
+          } else {
+            setTel2(response.data.tel2);
+          }
+
+          if (response.data.parentSSN === null) {
+            setParentSSN("")
+          } else {
+            setParentSSN(response.data.parentSSN);
+          }
+
+          if (response.data.parentDOB === null) {
+            setParentDOB("")
+          } else {
+            setParentDOB(response.data.parentDOB);
+          }
+
+          if (response.data.childSSN === null) {
+            setChildSSN("")
+          } else {
+            setChildSSN(response.data.childSSN);
+          }
+
           setEmail(response.data.email);
-          setAllergies(response.data.allergies);
-          setParentRemarks(response.data.parentRemarks);
-          setTeamRemarks(response.data.teamRemarks);
-          setPresence(response.data.presence);
-          setBalance(response.data.balance);
-          setSocial(response.data.social);
+
+          if (response.data.allergies === null) {
+            setAllergies("")
+          } else {
+            setAllergies(response.data.allergies);
+          }
+          setMedical(response.data.medicals)
+
+          if (response.data.parentRemarks === null) {
+            setParentRemarks("")
+          } else {
+            setParentRemarks(response.data.parentRemarks);
+          }
+
+          if (response.data.teamRemarks === null) {
+            setTeamRemarks("")
+          } else {
+            setTeamRemarks(response.data.teamRemarks);
+          }
+          
+          setWeek1(response.data.week1);
+          setWeek2(response.data.week2);
+          setWeek3(response.data.week3);
+          setWeek4(response.data.week4);
+
+          if (response.data.presence === null) {
+            setPresence("afwezig")
+          } else {
+            setPresence(response.data.presence);
+          }
+
+          if (response.data.balance === null) {
+            setBalance(0)
+          } else {
+            setBalance(response.data.balance);
+          }
+
+          if (response.data.social === null) {
+            setSocial("geen sociaal")
+          } else {
+            setSocial(response.data.social);
+          }
+
+          
         })
         .catch(function (err) {
           console.log(err);
@@ -79,24 +178,24 @@ const Edit = () => {
 
         var newBalance = 0;
         if(addBalance !== 0){
-          if(presence === 'present' && social === 'no social'){
+          if (presence === 'aanwezig' && social === 'geen sociaal'){
             newBalance = parseInt(addBalance) + parseInt(balance) - 4;
             //setBalance(newBalance);
-          }else if(presence === 'present' && social === 'social tarief'){
+          } else if (presence === 'aanwezig' && social === 'sociaal tarief'){
             newBalance = parseInt(addBalance) + parseInt(balance) - 2;
             //setBalance(newBalance);
-          }else if(presence === 'abscent'){
+          } else if (presence === 'afwezig'){
             newBalance = parseInt(addBalance) + parseInt(balance);
             //setBalance(newBalance);
           }
         }else if(addBalance === 0){
-          if (presence === 'present' && social === 'no social') {
+          if (presence === 'aanwezig' && social === 'geen sociaal') {
             newBalance = parseInt(balance) - 4;
             //setBalance(newBalance);
-          } else if (presence === 'present' && social === 'social tarief') {
+          } else if (presence === 'aanwezig' && social === 'sociaal tarief') {
             newBalance = parseInt(balance) - 2;
             //setBalance(newBalance);
-          } else if(presence === 'abscent'){
+          } else if (presence === 'afwezig'){
             newBalance = parseInt(balance)
           }
         }
@@ -119,13 +218,18 @@ const Edit = () => {
           childSSN: childSSN,
           email: email,
           allergies: allergies,
+          medicals: medicals,
           parentRemarks: parentRemarks,
           teamRemarks: teamRemarks,
+          week1: week1,
+          week2: week2,
+          week3: week3,
+          week4: week4,
           presence: presence,
           balance: newBalance,
           social: social,
         };
-        console.log("Obj: ", Obj)
+        //console.log("Obj: ", Obj)
 
         axios
           .put(`https://speelpleinapi.herokuapp.com/update/${id}`, Obj)
@@ -137,9 +241,9 @@ const Edit = () => {
     }
 
     const addStats = async () => {
-      if (presence === 'present') {
+      if (presence === 'aanwezig') {
         let statBalance;
-        if (social === 'no social') {
+        if (social === 'geen sociaal') {
           statBalance = 4;
         } else {
           statBalance = 2;
@@ -150,7 +254,7 @@ const Edit = () => {
           social: social,
           date: date,
         };
-        console.log('the newStat: ', newStat);
+        //console.log('the newStat: ', newStat);
 
         await axios
           .post(
@@ -167,11 +271,11 @@ const Edit = () => {
     return (
       <div>
         <div className='container border rounded mt-3 pb-5'>
-          <h3 className='text-center'>Update Record</h3>
+          <h3 className='text-center'>Gegevens Bijwerken</h3>
           <form onSubmit={handleSubmit}>
             <div className='row mt-3'>
               <div className='col-md-5'>
-                <label htmlFor='surname'>Surname</label>
+                <label htmlFor='surname'>Achtenaam</label>
                 <input
                   id='surname'
                   type='text'
@@ -181,7 +285,7 @@ const Edit = () => {
                 />
               </div>
               <div className='col-md-5'>
-                <label htmlFor='name'>Name</label>
+                <label htmlFor='name'>Voornaam</label>
                 <input
                   id='name'
                   type='text'
@@ -191,46 +295,112 @@ const Edit = () => {
                 />
               </div>
               <div className='col-md-2'>
-                <label htmlFor='dateOfBirth'>Date Of Birth</label>
+                <label htmlFor='dateOfBirth'>Geboortedatum</label>
                 <input
                   id='dateOfBirth'
                   type='text'
                   value={dateOfBirth}
                   onChange={(event) => setDateOfBirth(event.target.value)}
-                  className='form-control'
+                  className={dateOfBirth === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
             </div>
             <div className='row mt-3'>
               <div className='col-md-5 col-sm-6'>
-                <label htmlFor='street'>Street & box Nbr</label>
+                <label htmlFor='street'>Straatnaam en Huisnummer</label>
                 <input
                   id='street'
                   type='text'
                   value={street}
                   onChange={(event) => setStreet(event.target.value)}
-                  className='form-control'
+                  className={street === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
               <div className='col-md-2 col-sm-6'>
-                <label htmlFor='postalCode'>Postal Code</label>
+                <label htmlFor='postalCode'>Post Code</label>
                 <input
                   id='postalCode'
                   type='text'
                   value={postalCode}
                   onChange={(event) => setPostalCode(event.target.value)}
-                  className='form-control'
+                  className={postalCode === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
               <div className='col-md-5 col-sm-6'>
-                <label htmlFor='city'>City</label>
+                <label htmlFor='city'>Gemeente</label>
                 <input
                   id='city'
                   type='text'
                   value={city}
                   onChange={(event) => setCity(event.target.value)}
-                  className='form-control'
+                  className={city === "" ? 'form-control bg-warning' : 'form-control'}
                 />
+              </div>
+            </div>
+            <div className='row mt-3 border py-2'>
+              <div className='col-md-3 col-sm-6'>
+                <label htmlFor='week1'>Week 1</label>
+                <select
+                  id='week1'
+                  type='text'
+                  value={week1}
+                  onChange={(event) => setWeek1(event.target.value)}
+                  className='form-control'
+                >
+                  <option selected value=''>
+                    kies een optie
+                  </option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option value='afwezig'>Afwezig</option>
+                </select>
+              </div>
+              <div className='col-md-3 col-sm-6'>
+                <label htmlFor='week2'>Week 2</label>
+                <select
+                  id='week2'
+                  type='text'
+                  value={week2}
+                  onChange={(event) => setWeek2(event.target.value)}
+                  className='form-control'
+                >
+                  <option selected value=''>
+                    kies een optie
+                  </option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option value='afwezig'>Afwezig</option>
+                </select>
+              </div>
+              <div className='col-md-3 col-sm-6'>
+                <label htmlFor='week3'>Week 3</label>
+                <select
+                  id='week3'
+                  type='text'
+                  value={week3}
+                  onChange={(event) => setWeek3(event.target.value)}
+                  className='form-control'
+                >
+                  <option selected value=''>
+                    kies een optie
+                  </option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option value='afwezig'>Afwezig</option>
+                </select>
+              </div>
+              <div className='col-md-3 col-sm-6'>
+                <label htmlFor='week4'>Week 4</label>
+                <select
+                  id='week4'
+                  type='text'
+                  value={week4}
+                  onChange={(event) => setWeek4(event.target.value)}
+                  className='form-control'
+                >
+                  <option selected value=''>
+                    kies een optie
+                  </option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option value='afwezig'>Afwezig</option>
+                </select>
               </div>
             </div>
             <div className='row mt-3'>
@@ -241,20 +411,23 @@ const Edit = () => {
                   type='text'
                   value={school}
                   onChange={(event) => setSchool(event.target.value)}
-                  className='form-control'
+                  className={school === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
               <div className='col-md-2 col-sm-6'>
-                <label htmlFor='level'>Level</label>
+                <label htmlFor='level'>Groep</label>
                 <select
                   id='level'
                   type='text'
                   value={level}
                   onChange={(event) => setLevel(event.target.value)}
-                  className='form-control'
+                  className={level === "" ? 'form-control bg-warning' : 'form-control'}
                 >
-                  <option value='primaire'>Primaire</option>
-                  <option value='secondaire'>Secondaire</option>
+                  <option selected value=''>
+                    kies een optie
+                  </option>
+                  <option value='kleuters'>Kleuters</option>
+                  <option value='lagere'>Lagere</option>
                 </select>
               </div>
               <div className='col-md-5 col-sm-6'>
@@ -264,7 +437,7 @@ const Edit = () => {
                   type='text'
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  className='form-control'
+                  className={email === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
             </div>
@@ -276,7 +449,7 @@ const Edit = () => {
                   type='text'
                   value={contact1}
                   onChange={(event) => setContact1(event.target.value)}
-                  className='form-control'
+                  className={contact1 === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
               <div className='col-md-3 col-sm-6'>
@@ -286,7 +459,7 @@ const Edit = () => {
                   type='text'
                   value={tel1}
                   onChange={(event) => setTel1(event.target.value)}
-                  className='form-control'
+                  className={tel1 === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
               <div className='col-md-3 col-sm-6'>
@@ -312,39 +485,39 @@ const Edit = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-md-4'>
-                <label htmlFor='pssn'>Parent Social Security Nr</label>
+                <label htmlFor='pssn'>Ouder RN</label>
                 <input
                   id='pssn'
                   type='text'
                   value={parentSSN}
                   onChange={(event) => setParentSSN(event.target.value)}
-                  className='form-control'
+                  className={parentSSN === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
               <div className='col-md-4'>
-                <label htmlFor='pdob'>Parent Date Of Birth</label>
+                <label htmlFor='pdob'>Ouder Geboortedatum</label>
                 <input
                   id='pdob'
-                  type='date'
+                  type='text'
                   value={parentDOB}
                   onChange={(event) => setParentDOB(event.target.value)}
-                  className='form-control'
+                  className={parentDOB === "" ? 'form-control bg-warning': 'form-control'}
                 />
               </div>
               <div className='col-md-4'>
-                <label htmlFor='cssn'>Child Social Security Nr</label>
+                <label htmlFor='cssn'>Kind RN</label>
                 <input
                   id='cssn'
                   type='text'
                   value={childSSN}
                   onChange={(event) => setChildSSN(event.target.value)}
-                  className='form-control'
+                  className={childSSN === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
             </div>
             <div className='row mt-3'>
               <div className='col-md-6 col-sm-12'>
-                <label htmlFor='parentRemarks'>Parent Remarks</label>
+                <label htmlFor='parentRemarks'>Opmerkingen Ouders</label>
                 <input
                   id='parentRemarks'
                   type='text'
@@ -354,7 +527,7 @@ const Edit = () => {
                 />
               </div>
               <div className='col-md-6 col-sm-12'>
-                <label htmlFor='teamRemarks'>Team Remarks</label>
+                <label htmlFor='teamRemarks'>Opmerkingen Pleinleiding</label>
                 <input
                   id='teamRemarks'
                   type='text'
@@ -366,17 +539,23 @@ const Edit = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-md-8 col-sm-12'>
-                <label htmlFor='allergies'>Allergies</label>
+                <label htmlFor='allergies'>Allergieën</label>
                 <input
                   id='allergies'
                   type='text'
                   value={allergies}
                   onChange={(event) => setAllergies(event.target.value)}
-                  className='form-control'
+                  className={allergies === "" ? 'form-control bg-warning' : 'form-control'}
                 />
               </div>
+              <div className='col form-check d-flex align-items-center'>
+                <input class="form-check-input checkbox" type="checkbox" value={isChecked} checked={medicals === "checked" ? "checked" : ""} id="medical" name="medical" onChange={handleChecked} />
+                <label className='check__label' htmlFor='medical'>Medische Fiche</label>
+              </div>
+            </div>
+            <div className='row mt-3'>
               <div className='col-md-2 col-sm-4'>
-                <label htmlFor='presence'>Presence</label>
+                <label htmlFor='presence'>Aanweizigheid</label>
                 <select
                   id='presence'
                   type='text'
@@ -384,13 +563,13 @@ const Edit = () => {
                   onChange={(event) => setPresence(event.target.value)}
                   className='form-control'
                 >
-                  <option value='present'>present</option>
-                  <option value='abscent'>abscent</option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option value='afwezig'>Afwezig</option>
                 </select>
               </div>
 
               <div className='col-md-2 col-sm-4'>
-                <label htmlFor='social'>Social</label>
+                <label htmlFor='social'>Sociaal</label>
                 <select
                   id='social'
                   type='text'
@@ -398,15 +577,18 @@ const Edit = () => {
                   onChange={(event) => setSocial(event.target.value)}
                   className='form-control'
                 >
-                  <option value='no social'>no social</option>
-                  <option value='social tarief'>social tarief</option>
+                  <option selected value=''>
+                    kies een optie
+                  </option>
+                  <option value='geen sociaal'>Geen Sociaal Tarief</option>
+                  <option value='sociaal tarief'>Sociaal Tarief</option>
                   <option selected value=''></option>
                 </select>
               </div>
             </div>
             <div className='row mt-3'>
               <div className='col-md-2 col-sm-7'>
-                <label htmlFor='balance'>Balance</label>
+                <label htmlFor='balance'>Saldo</label>
                 <input
                   id='balance'
                   type='number'
@@ -418,7 +600,7 @@ const Edit = () => {
                 />
               </div>
               <div className='col-md-2 col-sm-7'>
-                <label htmlFor='addBalance'>Add Balance</label>
+                <label htmlFor='addBalance'>Saldo Toevoegen</label>
                 <input
                   id='addBalance'
                   type='number'
@@ -431,7 +613,7 @@ const Edit = () => {
             <div className='form-group mt-3'>
               <input
                 type='submit'
-                value='Update Record'
+                value='Gegevens Bijwerken'
                 className='btn btn-primary'
               />
               <input

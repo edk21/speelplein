@@ -5,12 +5,11 @@ import { IoIosTrash } from 'react-icons/io';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import Footer from './Footer';
 import Spinner from './Spinner';
-import CustomInput from '../utils/CustomInput';
 
 const Stats = () => {
     const [childs, setChild] = useState([]);
     const [filteredData, setFilteredData] = useState(childs);
-    console.log("childs: ", childs)
+    //console.log("childs: ", childs)
 
     const getAllStats = async () => {
       await axios
@@ -81,12 +80,12 @@ const Stats = () => {
   return (
     <div>
       <div className='table__container'>
-        <h3 className='text-center py-3 table__text'>Daily Registrations</h3>
+        <h3 className='text-center py-3 table__text'>Dagelijkse Registraties</h3>
         <div className='row'>
           <div className='col-4'>
             <input
               className='form-control'
-              placeholder='Search By Name'
+              placeholder='zoek op naam'
               type='text'
               onChange={(event) => handleSearchName(event)}
             />
@@ -94,7 +93,7 @@ const Stats = () => {
           <div className='col-4'>
             <input
               className='form-control'
-              placeholder='Search By Date'
+              placeholder='zoeken op datum'
               type='text'
               onChange={(event) => handleSearchDate(event)}
             />
@@ -106,7 +105,7 @@ const Stats = () => {
             table='emp-table'
             filename='Emp Excel file'
             sheet='Sheet'
-            buttonText='Export to Excel'
+            buttonText='Exporteren naar Excel'
           />
         </div>
 
@@ -119,10 +118,10 @@ const Stats = () => {
             <thead className='table-dark'>
               <tr>
                 <th style={{ width: '5%' }}>#</th>
-                <th style={{ width: '45%' }}>Name</th>
-                <th style={{ width: '8%' }}>Balance</th>
-                <th style={{ width: '20%' }}>Social</th>
-                <th style={{ width: '15%' }}>Date</th>
+                <th style={{ width: '45%' }}>Achetenaam en Voornaam</th>
+                <th style={{ width: '8%' }}>Saldo</th>
+                <th style={{ width: '20%' }}>Sociaal</th>
+                <th style={{ width: '15%' }}>Datum</th>
                 <th style={{ width: '15%' }}><Link to="/dailyR"><IoIosTrash className='icon-two cursor-pointer' onClick={() => handleDeleteAll()} /></Link></th>
               </tr>
             </thead>

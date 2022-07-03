@@ -81,7 +81,9 @@ c {
 }
 .table__wrapper1 {
   width: 100%;
+  max-height: 700px;
   margin-left: 0px;
+  overflow: auto;
 }
 .table-rows {
   text-align: center;
@@ -126,4 +128,10 @@ c {
 }
 .star{
   font-size: 10px !important;
+}
+.checkbox{
+  margin-left: 0px !important;
+}
+.check__label{
+  margin-left: 5px !important;
 }

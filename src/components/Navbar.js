@@ -5,7 +5,7 @@ const Navbar = () => {
       <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
         <div className='container-fluid'>
           <a href='/' className='navbar-brand'>
-            SpeelPlein Raccoon
+            SpeelPlein Raccoons
           </a>
           <button
             className='navbar-toggler'
@@ -22,12 +22,12 @@ const Navbar = () => {
             <ul className='navbar-nav mx-auto mb-2 mb-lg-0'>
               <li className='nav-item'>
                 <a href='/' className='nav-link active' aria-current='page'>
-                  Children List
+                  Kinderlist
                 </a>
               </li>
               <li className='nav-item'>
                 <a href='/create' className='nav-link'>
-                  Add Child
+                  kind toevoegen
                 </a>
               </li>
               {/* <li className='nav-item'>
@@ -35,19 +35,19 @@ const Navbar = () => {
                   Generate QR Code
                 </a>
               </li> */}
-              <li className='nav-item'>
+              {/* <li className='nav-item'>
                 <a href='/excelFile' className='nav-link'>
                   View Excel File
                 </a>
-              </li>
+              </li> */}
               <li className='nav-item'>
                 <a href='/dailyR' className='nav-link'>
-                  Daily Registrations
+                  Dagelijkse Registraties
                 </a>
               </li>
               <li className='nav-item'>
                 <a href='/legalS' className='nav-link'>
-                  View Statistics
+                  statistieken bekijken
                 </a>
               </li>
             </ul>

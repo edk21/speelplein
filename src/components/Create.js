@@ -26,11 +26,18 @@ const Create = () => {
     const [childSSN, setChildSSN] = useState('');
     const [email, setEmail] = useState('');
     const [allergies, setAllergies] = useState('');
+    const [isChecked, setIsChecked] = useState("not-checked");
+    const [medicals, setMedical] = useState(isChecked);
     const [parentRemarks, setParentRemarks] = useState('');
     const [teamRemarks, setTeamRemarks] = useState('');
+    const [week1, setWeek1] = useState('');
+    const [week2, setWeek2] = useState('');
+    const [week3, setWeek3] = useState('');
+    const [week4, setWeek4] = useState('');
     const [presence, setPresence] = useState('');
     const [balance, setBalance] = useState(0);
     const [social, setSocial] = useState('');
+    
 
     const myDate = new Date();
     const year = myDate.getFullYear();
@@ -38,39 +45,48 @@ const Create = () => {
     const day = myDate.getDate();
 
     const date = day + ' / ' + month + ' / ' + year;
-    console.log('the date: ', date);
+    //console.log('the date: ', date);
+    const handleChecked = (e) => {
+      if(e.target.checked){
+        setIsChecked("checked")
+      }else{
+        setIsChecked("not-checked")
+      }
+    }
 
     const handleSubmit = (e) => {
       e.preventDefault();
 
-      if(username === "" || name === "" || dateOfBirth === "" || presence === "" || balance === ""  || social === ""){
-        alert("Please fill in all the fields");
+      if(username === "" || name === "" || presence === "" || balance === ""  || social === ""){
+        alert("Gelieve alle velden in te vullen");
       }
       else if(balance < 0){
-        alert("Please enter a positive balance number");
+        alert("vul alstublieft een positief getal in");
+      }else if(balance > 20){
+        alert("Je mag niet meer dan 20€ invoeren")
       }else{
         var newBalance;
         if (balance === null || parseInt(balance) < 0) {
-          alert("Please enter a positive balance");
+          alert("vul alstublieft een positief getal in");
         }else if (parseInt(balance) === 0) {
-          if (presence === 'present' && social === 'social tarief') {
+          if (presence === 'aanwezig' && social === 'sociaal tarief') {
             newBalance = -2;
             setBalance(newBalance);
-          } else if (presence === 'present' && social === 'no social') {
+          } else if (presence === 'aanwezig' && social === 'geen sociaal') {
             newBalance = -4;
             setBalance(newBalance);
-          } else if (presence === 'abscent') {
+          } else if (presence === 'afwezig') {
             newBalance = 0;
             setBalance(newBalance);
           }
         } else if (parseInt(balance) > 0) {
-          if (presence === 'present' && social === 'social tarief') {
+          if (presence === 'aanwezig' && social === 'sociaal tarief') {
             newBalance = parseInt(balance) - 2;
             setBalance(newBalance);
-          } else if (presence === 'present' && social === 'no social') {
+          } else if (presence === 'aanwezig' && social === 'geen sociaal') {
             newBalance = parseInt(balance) - 4;
             setBalance(newBalance);
-          } else if (presence === 'abscent') {
+          } else if (presence === 'afwezig') {
             newBalance = parseInt(balance);
             setBalance(newBalance);
           }
@@ -94,8 +110,13 @@ const Create = () => {
           childSSN: childSSN,
           email: email,
           allergies: allergies,
+          medicals: medicals,
           parentRemarks: parentRemarks,
           teamRemarks: teamRemarks,
+          week1: week1,
+          week2: week2,
+          week3: week3,
+          week4: week4,
           presence: presence,
           balance: newBalance,
           social: social,
@@ -122,11 +143,17 @@ const Create = () => {
         setChildSSN('');
         setEmail('');
         setAllergies('');
+        setMedical('');
         setParentRemarks('');
         setTeamRemarks('');
+        setWeek1("");
+        setWeek2("");
+        setWeek3("");
+        setWeek4("");
         setPresence('');
         setBalance(0);
         setSocial('');
+        setIsChecked(false);
 
         addStats();
       
@@ -140,9 +167,9 @@ const Create = () => {
     }
 
   const addStats = async () => {
-    if (presence === 'present') {
+    if (presence === 'aanwezig') {
       let statBalance;
-      if (social === 'no social') {
+      if (social === 'geen sociaal') {
         statBalance = 4;
       } else {
         statBalance = 2;
@@ -153,7 +180,7 @@ const Create = () => {
         social: social,
         date: date,
       };
-      console.log('the newStat: ', newStat);
+      //console.log('the newStat: ', newStat);
 
       await axios
         .post(
@@ -167,12 +194,12 @@ const Create = () => {
     return (
       <div style={{ height: '100vh' }}>
         <div className='container border rounded' style={{ marginTop: 20 }}>
-          <p className='text-muted fw-light'>Fields with stars are <strong className='text-decoration-underline fw-bold'>mandatory</strong></p>
-          <h3 className='text-center'>Add a New child</h3>
+          <p className='text-muted fw-light'>Velden met sterren zijn<strong className='text-decoration-underline fw-bold pl-2'> Verplicht</strong></p>
+          <h3 className='text-center pb-2'>Een nieuw kind toevoegen</h3>
           <form onSubmit={handleSubmit}>
             <div className='row mt-3'>
               <div className='col-md-4'>
-                <label className='position-relative' htmlFor='surname'>Surname <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
+                <label className='position-relative' htmlFor='surname'>Achtenaam <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
                 <input
                   id='surname'
                   type='text'
@@ -182,7 +209,7 @@ const Create = () => {
                 />
               </div>
               <div className='col-md-4'>
-                <label className='position-relative' htmlFor='name'>Name <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
+                <label className='position-relative' htmlFor='name'>Voornaam <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
                 <input
                   id='name'
                   type='text'
@@ -192,10 +219,10 @@ const Create = () => {
                 />
               </div>
               <div className='col-md-4'>
-                <label className='position-relative' htmlFor='dateOfBirth'>Date Of Birth <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
+                <label className='position-relative' htmlFor='dateOfBirth'>Kind Geboortedatum</label>
                 <input
                   id='dateOfBirth'
-                  type='date'
+                  type='text'
                   onChange={(event) => setDateOfBirth(event.target.value)}
                   className='form-control'
                   autoComplete='off'
@@ -204,7 +231,7 @@ const Create = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-md-2'>
-                <label className='position-relative' htmlFor='balance'>Balance <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
+                <label className='position-relative' htmlFor='balance'>Saldo <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
                 <input
                   id='balance'
                   type='number'
@@ -214,7 +241,7 @@ const Create = () => {
                 />
               </div>
               <div className='col-md-5'>
-                <label className='position-relative' htmlFor='presence'>Presence <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
+                <label className='position-relative' htmlFor='presence'>Aanwezigheid <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
                 <select
                   id='presence'
                   type='text'
@@ -222,14 +249,14 @@ const Create = () => {
                   className='form-control'
                 >
                   <option selected value=''>
-                    Select an option
+                    kies een optie
                   </option>
-                  <option value='present'>Present</option>
-                  <option value='abscent'>Abscent</option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option value='afwezig'>Afwezig</option>
                 </select>
               </div>
               <div className='col-md-5'>
-                <label className='position-relative' htmlFor='social'>Social <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
+                <label className='position-relative' htmlFor='social'>Sociaal <i className="fa-solid fa-star text-warning star position-absolute"></i></label>
                 <select
                   id='social'
                   type='text'
@@ -237,10 +264,72 @@ const Create = () => {
                   className='form-control'
                 >
                   <option selected value=''>
-                    Select an option
+                    kies een optie
                   </option>
-                  <option value='no social'>No Social Tarief</option>
-                  <option value='social tarief'>Social Tarief</option>
+                  <option value='geen sociaal'>Geen Sociaal Tarief</option>
+                  <option value='sociaal tarief'>Sociaal Tarief</option>
+                </select>
+              </div>
+            </div>
+            <div className='row mt-3 border py-2'>
+              <div className='col-md-3 col-sm-6'>
+                <label htmlFor='week1'>Week 1</label>
+                <select
+                  id='week1'
+                  type='text'
+                  onChange={(event) => setWeek1(event.target.value)}
+                  className='form-control'
+                >
+                  <option selected value='abscent'>
+                    kies een optie
+                  </option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option selected value='afwezig'>Afwezig</option>
+                </select>
+              </div>
+              <div className='col-md-3 col-sm-6'>
+                <label htmlFor='week2'>Week 2</label>
+                <select
+                  id='week2'
+                  type='text'
+                  onChange={(event) => setWeek2(event.target.value)}
+                  className='form-control'
+                >
+                  <option selected value='abscent'>
+                    kies een optie
+                  </option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option selected value='afwezig'>Afwezig</option>
+                </select>
+              </div>
+              <div className='col-md-3 col-sm-6'>
+                <label htmlFor='week3'>Week 3</label>
+                <select
+                  id='week3'
+                  type='text'
+                  onChange={(event) => setWeek3(event.target.value)}
+                  className='form-control'
+                >
+                  <option selected value='abscent'>
+                    kies een optie
+                  </option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option selected value='afwezig'>Afwezig</option>
+                </select>
+              </div>
+              <div className='col-md-3 col-sm-6'>
+                <label htmlFor='week4'>Week 4</label>
+                <select
+                  id='week4'
+                  type='text'
+                  onChange={(event) => setWeek4(event.target.value)}
+                  className='form-control'
+                >
+                  <option selected value='abscent'>
+                    kies een optie
+                  </option>
+                  <option value='aanwezig'>Aanwezig</option>
+                  <option selected value='afwezig'>Afwezig</option>
                 </select>
               </div>
             </div>
@@ -256,7 +345,7 @@ const Create = () => {
                 />
               </div>
               <div className='col-md-3'>
-                <label htmlFor='level'>Level</label>
+                <label htmlFor='level'>Groep</label>
                 <select
                   id='level'
                   type='text'
@@ -264,10 +353,10 @@ const Create = () => {
                   className='form-control'
                 >
                   <option selected value=''>
-                    Select an option
+                    kies een optie
                   </option>
-                  <option value='primaire'>Primaire</option>
-                  <option value='secondaire'>Secondaire</option>
+                  <option value='Kleuters'>Kleuters</option>
+                  <option value='lagere'>Lagere</option>
                 </select>
               </div>
               <div className='col-md-4'>
@@ -283,7 +372,7 @@ const Create = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-md-5'>
-                <label className='' htmlFor='street'>Street & box Nbr</label>
+                <label className='' htmlFor='street'>Straatnaam en huisnummer</label>
                 <input
                   id='street'
                   type='text'
@@ -293,7 +382,7 @@ const Create = () => {
                 />
               </div>
               <div className='col-md-3'>
-                <label className='' htmlFor='postalCode'>Postal Code</label>
+                <label className='' htmlFor='postalCode'>Post Code</label>
                 <input
                   id='postalCode'
                   type='text'
@@ -303,7 +392,7 @@ const Create = () => {
                 />
               </div>
               <div className='col-md-4'>
-                <label className='' htmlFor='city'>City</label>
+                <label className='' htmlFor='city'>Gemeente</label>
                 <input
                   id='city'
                   type='text'
@@ -357,7 +446,7 @@ const Create = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-md-4'>
-                <label htmlFor='pssn'>Parent Social Security Nr</label>
+                <label htmlFor='pssn'>Ouder RN</label>
                 <input
                   id='pssn'
                   type='text'
@@ -367,17 +456,17 @@ const Create = () => {
                 />
               </div>
               <div className='col-md-4'>
-                <label htmlFor='pdob'>Parent Date Of Birth</label>
+                <label htmlFor='pdob'>Ouder Geboortedatum</label>
                 <input
                   id='pdob'
-                  type='date'
+                  type='text'
                   onChange={(event) => setParentDOB(event.target.value)}
                   className='form-control'
                   autoComplete='off'
                 />
               </div>
               <div className='col-md-4'>
-                <label htmlFor='cssn'>Child Social Security Nr</label>
+                <label htmlFor='cssn'>Kind RN</label>
                 <input
                   id='cssn'
                   type='text'
@@ -388,9 +477,9 @@ const Create = () => {
               </div>
 
             </div>
-            <div className='row mt-3'>
-              <div className='col-md-4'>
-                <label htmlFor='allergies'>Allergies</label>
+            <div className='row mt-3 d-flex align-items-center'>
+              <div className='col-md-8'>
+                <label htmlFor='allergies'>Allergieës</label>
                 <input
                   id='allergies'
                   type='text'
@@ -399,8 +488,13 @@ const Create = () => {
                   autoComplete='off'
                 />
               </div>
-              <div className='col-md-4'>
-                <label htmlFor='parentRemarks'>Parent Remarks</label>
+              <div className='col form-check d-flex align-items-center'>
+                <input class="form-check-input checkbox" type="checkbox" value="" id="medical" name="medical" onChange={handleChecked} />
+                <label className='check__label' htmlFor='medical'>Medische Fiche</label>
+              </div>
+            </div><div className='row mt-3'>
+              <div className='col-md-6'>
+                <label htmlFor='parentRemarks'>Opmerkingen ouders</label>
                 <input
                   id='parentRemarks'
                   type='text'
@@ -409,8 +503,8 @@ const Create = () => {
                   autoComplete='off'
                 />
               </div>
-              <div className='col-md-4'>
-                <label htmlFor='teamRemarks'>Team Remarks</label>
+              <div className='col-md-6'>
+                <label htmlFor='teamRemarks'>Opmerkingen pleinleiding</label>
                 <input
                   id='teamRemarks'
                   type='text'
@@ -424,7 +518,7 @@ const Create = () => {
             <div className='form-group mt-3 pb-5'>
               <input
                 type='submit'
-                value='New Record'
+                value='Nieuwe inschrijving'
                 className='btn btn-primary'
               />
               <input

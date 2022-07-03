@@ -12,7 +12,7 @@ export default function XMLExport(props) {
         exportFromJSON({ data, fileName, fields, exportType });
     }
 
-    return <button className="btn btn-primary" onClick={onClick}>download</button>;
+    return <button className="btn btn-primary" onClick={onClick}>Generate XML File</button>;
 }
 
 XMLExport.propTypes = {
