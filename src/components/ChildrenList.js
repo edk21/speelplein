@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react'
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 import axios from "axios"
 import { IoIosTrash, IoIosCreate } from 'react-icons/io';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
@@ -9,7 +9,6 @@ import Spinner from './Spinner';
 //http://localhost:5001/
 
 const ChildrenList = () => {
-  //const location = useLocation();
 
     const [childs, setChild] = useState([]);
     // const [filteredData, setFilteredData] = useState(childs);    
@@ -134,7 +133,7 @@ const ChildrenList = () => {
                     <th>Week 2</th>
                     <th>Week 3</th>
                     <th>Week 4</th>
-                    {/* <th>Presence</th> */}
+                    {/* <th>Total Deposit</th> */}
                     
                     <th></th>
                   </tr>
@@ -165,6 +164,7 @@ const ChildrenList = () => {
                               }`,
                             fontWeight: 700,
                           }}
+                          //contenteditable="true"
                         >
                           {child.balance} €
                         </td>
@@ -218,7 +218,7 @@ const ChildrenList = () => {
                         <td style={{ textTransform: "uppercase", color: "#f5f5f5", fontWeight: "600", backgroundColor: child.week2 === null ? "red" : child.week2 === "" ? "red" : child.week2 === "afwezig" ? "red" : "#8ac926" }}>{child.week2 === null ? "afwezig" : child.week2 === "" ? "afwezig" : child.week2}</td>
                         <td style={{ textTransform: "uppercase", color: "#f5f5f5", fontWeight: "600", backgroundColor: child.week3 === null ? "red" : child.week3 === "" ? "red" : child.week3 === "afwezig" ? "red" : "#8ac926" }}>{child.week3 === null ? "afwezig" : child.week3 === "" ? "afwezig" : child.week3}</td>
                         <td style={{ textTransform: "uppercase", color: "#f5f5f5", fontWeight: "600", backgroundColor: child.week4 === null ? "red" : child.week4 === "" ? "red" : child.week4 === "afwezig" ? "red" : "#8ac926" }}>{child.week4 === null ? "afwezig" : child.week4 === "" ? "afwezig" : child.week4}</td>
-                        {/* <td>{child.presence}</td> */}
+                        {/* <td>{child.totalAmount}</td> */}
                         
                         <td>
                           <Link

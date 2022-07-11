@@ -37,6 +37,9 @@ const Create = () => {
     const [presence, setPresence] = useState('');
     const [balance, setBalance] = useState(0);
     const [social, setSocial] = useState('');
+    const [totalAmount, setTotalAmount] = useState(balance);
+    console.log("balance: ", balance)
+    console.log("totalAmount: ", totalAmount)
     
 
     const myDate = new Date();
@@ -65,6 +68,7 @@ const Create = () => {
       }else if(balance > 20){
         alert("Je mag niet meer dan 20€ invoeren")
       }else{
+        //setTotalAmount(balance);
         var newBalance;
         if (balance === null || parseInt(balance) < 0) {
           alert("vul alstublieft een positief getal in");
@@ -120,6 +124,7 @@ const Create = () => {
           presence: presence,
           balance: newBalance,
           social: social,
+          totalAmount: totalAmount,
         };
         axios
           .post('https://speelpleinapi.herokuapp.com/record/add', newChild)

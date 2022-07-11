@@ -45,9 +45,9 @@ const Edit = () => {
     const [social, setSocial] = useState("");
     const [addBalance, setAddBalance] = useState(0);
     const [isChecked, setIsChecked] = useState(false);
-
-  //console.log("isChecked: ", isChecked)
-  //console.log("medical: ", medicals)
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [enable, setEnable]= useState(true)
+    console.log("totalAmount edit: ", totalAmount)
 
   const handleChecked = (e) => {
     if (e.target.checked) {
@@ -63,11 +63,15 @@ const Edit = () => {
       axios
         .get(`https://speelpleinapi.herokuapp.com/record/${id}`)
         .then((response) => {
-          console.log('response: ', response.data.medicals);
         
           setUsername(response.data.surname);
           setName(response.data.name);
           setDateOfBirth(response.data.dateOfBirth);
+          if(response.data.totalAmount === null){
+            setTotalAmount(0)
+          }else{
+            setTotalAmount(response.data.balance)
+          }
           if(response.data.school === null){
             setSchool("")
           }else {
@@ -164,42 +168,85 @@ const Edit = () => {
           } else {
             setSocial(response.data.social);
           }
-
-          
+       
         })
         .catch(function (err) {
           console.log(err);
         });
     }, [id]);
 
+  const handleButton = (e) => {
+    e.preventDefault()
+    setEnable(!enable);
+  }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
+      if(enable === true){
+        const Obj = {
+          surname: username,
+          name: name,
+          dateOfBirth: dateOfBirth,
+          school: school,
+          level: level,
+          street: street,
+          postalCode: postalCode,
+          city: city,
+          contact1: contact1,
+          tel1: tel1,
+          contact2: contact2,
+          tel2: tel2,
+          parentSSN: parentSSN,
+          parentDOB: parentDOB,
+          childSSN: childSSN,
+          email: email,
+          allergies: allergies,
+          medicals: medicals,
+          parentRemarks: parentRemarks,
+          teamRemarks: teamRemarks,
+          week1: week1,
+          week2: week2,
+          week3: week3,
+          week4: week4,
+          presence: presence,
+          balance: balance,
+          social: social,
+        };
+        //console.log("Obj: ", Obj)
+
+        axios
+          .put(`https://speelpleinapi.herokuapp.com/update/${id}`, Obj)
+          .then((res) => console.log('res.data: ', res.data));
+
+        addStats();
+
+        navigate("/")
+      }else{
         var newBalance = 0;
-        if(addBalance !== 0){
-          if (presence === 'aanwezig' && social === 'geen sociaal'){
+        if (addBalance !== 0) {
+          if (presence === 'aanwezig' && social === 'geen sociaal') {
             newBalance = parseInt(addBalance) + parseInt(balance) - 4;
             //setBalance(newBalance);
-          } else if (presence === 'aanwezig' && social === 'sociaal tarief'){
+          } else if (presence === 'aanwezig' && social === 'sociaal tarief') {
             newBalance = parseInt(addBalance) + parseInt(balance) - 2;
             //setBalance(newBalance);
-          } else if (presence === 'afwezig'){
+          } else if (presence === 'afwezig') {
             newBalance = parseInt(addBalance) + parseInt(balance);
             //setBalance(newBalance);
           }
-        }else if(addBalance === 0){
+        } else if (addBalance === 0) {
           if (presence === 'aanwezig' && social === 'geen sociaal') {
             newBalance = parseInt(balance) - 4;
             //setBalance(newBalance);
           } else if (presence === 'aanwezig' && social === 'sociaal tarief') {
             newBalance = parseInt(balance) - 2;
             //setBalance(newBalance);
-          } else if (presence === 'afwezig'){
+          } else if (presence === 'afwezig') {
             newBalance = parseInt(balance)
           }
         }
-        
+
         const Obj = {
           surname: username,
           name: name,
@@ -234,10 +281,12 @@ const Edit = () => {
         axios
           .put(`https://speelpleinapi.herokuapp.com/update/${id}`, Obj)
           .then((res) => console.log('res.data: ', res.data));
-        
+
         addStats();
-        
+
         navigate("/")
+      }
+        
     }
 
     const addStats = async () => {
@@ -562,12 +611,14 @@ const Edit = () => {
                   value={presence}
                   onChange={(event) => setPresence(event.target.value)}
                   className='form-control'
+                  disabled={enable}
                 >
                   <option value='aanwezig'>Aanwezig</option>
                   <option value='afwezig'>Afwezig</option>
                 </select>
+                <button style={{ width: "100px", border: "none", background: "green", color: "white", borderRadius: "10px", marginTop: "10px" }} onClick={handleButton}>Enable</button>
               </div>
-
+            
               <div className='col-md-2 col-sm-4'>
                 <label htmlFor='social'>Sociaal</label>
                 <select
@@ -576,6 +627,7 @@ const Edit = () => {
                   value={social}
                   onChange={(event) => setSocial(event.target.value)}
                   className='form-control'
+                  disabled={enable}
                 >
                   <option selected value=''>
                     kies een optie
@@ -585,9 +637,9 @@ const Edit = () => {
                   <option selected value=''></option>
                 </select>
               </div>
-            </div>
-            <div className='row mt-3'>
-              <div className='col-md-2 col-sm-7'>
+            {/* </div>
+            <div className='row mt-3'> */}
+              <div className='col-md-2 col-sm-4'>
                 <label htmlFor='balance'>Saldo</label>
                 <input
                   id='balance'
@@ -597,9 +649,10 @@ const Edit = () => {
                   //onChange={handleChange}
                   className='form-control'
                   style={{ background: `${balance < 0 ? 'red' : 'green'}` }}
+                  disabled={enable}
                 />
               </div>
-              <div className='col-md-2 col-sm-7'>
+              <div className='col-md-2 col-sm-4'>
                 <label htmlFor='addBalance'>Saldo Toevoegen</label>
                 <input
                   id='addBalance'
@@ -607,6 +660,7 @@ const Edit = () => {
                   value={addBalance}
                   onChange={(event) => setAddBalance(event.target.value)}
                   className='form-control'
+                  disabled={enable}
                 />
               </div>
             </div>

@@ -57,8 +57,9 @@ const Stats = () => {
       let result = [];
       console.log(value);
       result = childs.filter((data) => {
-        return data.name.indexOf(value) !== -1;
+        return data.name?.toLowerCase().includes(value.toLowerCase());
       });
+      //child.name?.toLowerCase().includes(query.toLowerCase())
       
       setFilteredData(result);
     };
