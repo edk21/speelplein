@@ -10,17 +10,15 @@ import Spinner from './Spinner';
 
 const ChildrenList = () => {
 
-    const [childs, setChild] = useState([]);
-    // const [filteredData, setFilteredData] = useState(childs);    
-    // const [newfilteredData, setNewFilteredData] = useState(childs);    
+    const [childs, setChild] = useState([]);  
     const [query, setQuery] = useState("")
 
     const getAllRecords = async () => {
         await axios
-          .get('https://speelpleinapi.herokuapp.com/record/')
+          //.get('https://speelpleinapi.herokuapp.com/record/')
+          .get('https://speelplenapi.onrender.com/record/')
           .then((response) => {
             setChild(response.data);
-            //setFilteredData(response.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -28,8 +26,9 @@ const ChildrenList = () => {
     }
 
     const deleteRecord = async (id) => {
-        console.log("to delete: ", id);
-        await axios.delete(`https://speelpleinapi.herokuapp.com/${id}`);
+        // console.log("to delete: ", id);
+        //await axios.delete(`https://speelpleinapi.herokuapp.com/${id}`);
+      await axios.delete(`https://speelplenapi.onrender.com/${id}`);
         getAllRecords();
     }
 
@@ -46,24 +45,6 @@ const ChildrenList = () => {
         getAllRecords();
     }
 
-    // const handleSearch = (event) => {
-    //   let value = event.target.value.toLowerCase();
-    //   let result = [];
-    //   let newResult = [];
-    //   console.log(value)
-
-    //   newResult = childs.filter((data) => {
-    //     return data.name.toLowerCase().includes(value)
-    //     })
-
-    //   result = childs.filter((data) => {
-    //     return data.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-    //   });
-
-    //   setFilteredData(result);
-    //   setNewFilteredData(newResult);
-    // };
-
     if(childs.length === 0){
         return <Spinner />
     }
@@ -78,7 +59,6 @@ const ChildrenList = () => {
                 className='form-control'
                 placeholder='zoeken op naam of achternaam'
                 type='text'
-                // onChange={(event) => handleSearch(event)}
                 onChange={(e)=> setQuery(e.target.value)}
               />
             </div>
@@ -214,9 +194,13 @@ const ChildrenList = () => {
                         <td>{child.parentRemarks}</td>
                         <td>{child.teamRemarks}</td>
                         <td><input className='form-check-input' type="checkbox" name="medical" checked={child.medicals === "checked" ? "checked" : ""} /></td>
+
                         <td style={{ textTransform: "uppercase", color: "#f5f5f5", fontWeight: "600", backgroundColor: child.week1 === null ? "red" : child.week1 === "" ? "red" : child.week1 === "afwezig" ? "red" : "#8ac926" }}>{child.week1 === null ? "afwezig" : child.week1 === "" ? "afwezig" : child.week1}</td>
+
                         <td style={{ textTransform: "uppercase", color: "#f5f5f5", fontWeight: "600", backgroundColor: child.week2 === null ? "red" : child.week2 === "" ? "red" : child.week2 === "afwezig" ? "red" : "#8ac926" }}>{child.week2 === null ? "afwezig" : child.week2 === "" ? "afwezig" : child.week2}</td>
+
                         <td style={{ textTransform: "uppercase", color: "#f5f5f5", fontWeight: "600", backgroundColor: child.week3 === null ? "red" : child.week3 === "" ? "red" : child.week3 === "afwezig" ? "red" : "#8ac926" }}>{child.week3 === null ? "afwezig" : child.week3 === "" ? "afwezig" : child.week3}</td>
+
                         <td style={{ textTransform: "uppercase", color: "#f5f5f5", fontWeight: "600", backgroundColor: child.week4 === null ? "red" : child.week4 === "" ? "red" : child.week4 === "afwezig" ? "red" : "#8ac926" }}>{child.week4 === null ? "afwezig" : child.week4 === "" ? "afwezig" : child.week4}</td>
                         {/* <td>{child.totalAmount}</td> */}
                         

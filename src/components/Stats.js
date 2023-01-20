@@ -13,7 +13,7 @@ const Stats = () => {
 
     const getAllStats = async () => {
       await axios
-        .get('https://speelpleinapi.herokuapp.com/record/stats/')
+        .get('https://speelplenapi.onrender.com/record/stats/')
         .then((response) => {
           setChild(response.data);
           setFilteredData(response.data);
@@ -24,12 +24,12 @@ const Stats = () => {
     };
     const deleteRecord = async (id) => {
       console.log('to delete: ', id);
-      await axios.delete(`https://speelpleinapi.herokuapp.com/record/deleteAStat/${id}`);
+      await axios.delete(`https://speelplenapi.onrender.com/record/deleteAStat/${id}`);
       getAllStats();
     };
 
     const deleteAllRecord = async () => {
-      await axios.delete('https://speelpleinapi.herokuapp.com/record/deleteAllStats');
+      await axios.delete('https://speelplenapi.onrender.com/record/deleteAllStats');
       getAllStats();
     };
 

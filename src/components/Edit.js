@@ -7,7 +7,6 @@ import Footer from './Footer'
 const Edit = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    console.log("child: ", id)
 
     const myDate = new Date();
     const year = myDate.getFullYear();
@@ -47,7 +46,6 @@ const Edit = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [totalAmount, setTotalAmount] = useState(0);
     const [enable, setEnable]= useState(true)
-    console.log("totalAmount edit: ", totalAmount)
 
   const handleChecked = (e) => {
     if (e.target.checked) {
@@ -61,17 +59,19 @@ const Edit = () => {
 
     useEffect(() => {
       axios
-        .get(`https://speelpleinapi.herokuapp.com/record/${id}`)
+        .get(`https://speelplenapi.onrender.com/record/${id}`)
         .then((response) => {
         
           setUsername(response.data.surname);
           setName(response.data.name);
           setDateOfBirth(response.data.dateOfBirth);
+
           if(response.data.totalAmount === null){
             setTotalAmount(0)
           }else{
-            setTotalAmount(response.data.balance)
-          }
+            setTotalAmount(response.data.totalAmount)
+         }
+
           if(response.data.school === null){
             setSchool("")
           }else {
@@ -212,11 +212,12 @@ const Edit = () => {
           presence: presence,
           balance: balance,
           social: social,
+          totalAmount: parseInt(addBalance) + parseInt(totalAmount),
         };
         //console.log("Obj: ", Obj)
 
         axios
-          .put(`https://speelpleinapi.herokuapp.com/update/${id}`, Obj)
+          .put(`https://speelplenapi.onrender.com/update/${id}`, Obj)
           .then((res) => console.log('res.data: ', res.data));
 
         addStats();
@@ -275,11 +276,12 @@ const Edit = () => {
           presence: presence,
           balance: newBalance,
           social: social,
+          totalAmount: parseInt(addBalance) + parseInt(totalAmount),
         };
         //console.log("Obj: ", Obj)
 
         axios
-          .put(`https://speelpleinapi.herokuapp.com/update/${id}`, Obj)
+          .put(`https://speelplenapi.onrender.com/update/${id}`, Obj)
           .then((res) => console.log('res.data: ', res.data));
 
         addStats();
@@ -290,33 +292,43 @@ const Edit = () => {
     }
 
     const addStats = async () => {
-      if (presence === 'aanwezig') {
-        let statBalance;
-        if (social === 'geen sociaal') {
-          statBalance = 4;
-        } else {
-          statBalance = 2;
-        }
-        const newStat = {
-          name: username + ' ' + name,
-          balance: statBalance,
-          social: social,
-          date: date,
-        };
-        //console.log('the newStat: ', newStat);
+      if(enable === false){
+        if (presence === 'aanwezig') {
+          let statBalance;
+          if (social === 'geen sociaal') {
+            statBalance = 4;
+          } else {
+            statBalance = 2;
+          }
+          const newStat = {
+            name: username + ' ' + name,
+            balance: statBalance,
+            social: social,
+            date: date,
+            //totalAmount: totalAmount,
+          };
+          //console.log('the newStat: ', newStat);
 
-        await axios
-          .post(
-            'https://speelpleinapi.herokuapp.com/record/stats/add',
-            newStat
-          )
-          .then((response) => console.log(response.data));
+          await axios
+            .post(
+              'https://speelplenapi.onrender.com/record/stats/add',
+              newStat
+            )
+            .then((response) => console.log(response.data));
+        }
       }
     };
 
     const handleOnClick = () => {
         navigate("/")
     }
+  // useEffect(() => {
+  //   if (balance !== null && balance >= 0) {
+  //     setTimeout(() => {
+  //       setTotalAmount(parseInt(balance) + parseInt(totalAmount));
+  //     }, 1000);
+  //   }
+  // }, [balance]);
     return (
       <div>
         <div className='container border rounded mt-3 pb-5'>

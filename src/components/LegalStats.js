@@ -47,7 +47,7 @@ const LegalStats = () => {
 
   useEffect(() => {
     axios
-      .get(`https://speelpleinapi.herokuapp.com/record/${id}`)
+      .get(`https://speelplenapi.onrender.com/record/${id}`)
       .then((response) => {
         // console.log('response: ', response);
         setChildFirstName(response.data.surname);

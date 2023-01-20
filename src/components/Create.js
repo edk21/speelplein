@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import Footer from './Footer';
@@ -37,10 +37,10 @@ const Create = () => {
     const [presence, setPresence] = useState('');
     const [balance, setBalance] = useState(0);
     const [social, setSocial] = useState('');
-    const [totalAmount, setTotalAmount] = useState(balance);
-    console.log("balance: ", balance)
-    console.log("totalAmount: ", totalAmount)
-    
+    const [totalAmount, setTotalAmount] = useState(0);
+
+    console.log("balance create", balance)
+    console.log("totalAmount create", totalAmount)
 
     const myDate = new Date();
     const year = myDate.getFullYear();
@@ -127,7 +127,8 @@ const Create = () => {
           totalAmount: totalAmount,
         };
         axios
-          .post('https://speelpleinapi.herokuapp.com/record/add', newChild)
+          //.post('https://speelpleinapi.herokuapp.com/record/add', newChild)
+          .post('https://speelplenapi.onrender.com/record/add', newChild)
           .then((response) => console.log(response.data));
 
 
@@ -184,17 +185,25 @@ const Create = () => {
         balance: statBalance,
         social: social,
         date: date,
+        totalAmount: totalAmount,
       };
-      //console.log('the newStat: ', newStat);
 
       await axios
         .post(
-          'https://speelpleinapi.herokuapp.com/record/stats/add',
+          'https://speelplenapi.onrender.com/record/stats/add',
           newStat
         )
         .then((response) => console.log(response.data));
     }
   };
+
+  useEffect(() => {
+    if (balance !== null && balance > 0) {
+      setTimeout(() => {
+        setTotalAmount(parseInt(balance) + parseInt(totalAmount));
+      }, 1000);
+    }
+  }, [balance]);
 
     return (
       <div style={{ height: '100vh' }}>

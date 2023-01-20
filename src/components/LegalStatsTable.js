@@ -26,7 +26,7 @@ const LegalStatsTable = () => {
 
     const getAllRecords = async () => {
         await axios
-            .get('https://speelpleinapi.herokuapp.com/record/')
+            .get('https://speelplenapi.onrender.com/record/')
             .then((response) => {
                 setChild(response.data);
                 setFilteredData(response.data)
@@ -60,7 +60,6 @@ const LegalStatsTable = () => {
             setLoggedIn(false)
         }
     }
-
 
   return (
     <div className='mt-3'>
@@ -117,6 +116,7 @@ const LegalStatsTable = () => {
                                     <th>Child SSN</th>
                                     <th>Presence</th>
                                     <th>Balance</th>
+                                    <th>Total Amount</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -156,6 +156,7 @@ const LegalStatsTable = () => {
                                             >
                                                 {child.balance} €
                                             </td>
+                                            <td>{child.totalAmount}</td>
                                             <td>
                                                 <Link to={'/legalss/' + child._id}>
                                                     {' '}
