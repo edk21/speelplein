@@ -9,11 +9,6 @@ const Edit = () => {
     const navigate = useNavigate();
 
     const myDate = new Date();
-    const year = myDate.getFullYear();
-    const month = myDate.getMonth() + 1;
-    const day = myDate.getDate();
-
-    const date = day + ' / ' + month + ' / ' + year;
 
     const [username, setUsername] = useState("");
     const [name, setName] = useState("");
@@ -286,7 +281,7 @@ const Edit = () => {
 
         addStats();
 
-        navigate("/")
+        navigate("/kinderList")
       }
         
     }
@@ -304,7 +299,7 @@ const Edit = () => {
             name: username + ' ' + name,
             balance: statBalance,
             social: social,
-            date: date,
+            date: myDate.toLocaleDateString(),
             //totalAmount: totalAmount,
           };
           //console.log('the newStat: ', newStat);
@@ -320,7 +315,7 @@ const Edit = () => {
     };
 
     const handleOnClick = () => {
-        navigate("/")
+        navigate("/kinderList")
     }
   // useEffect(() => {
   //   if (balance !== null && balance >= 0) {
@@ -610,7 +605,7 @@ const Edit = () => {
                 />
               </div>
               <div className='col form-check d-flex align-items-center'>
-                <input class="form-check-input checkbox" type="checkbox" value={isChecked} checked={medicals === "checked" ? "checked" : ""} id="medical" name="medical" onChange={handleChecked} />
+                <input className="form-check-input checkbox" type="checkbox" value={isChecked} checked={medicals === "checked" ? "checked" : ""} id="medical" name="medical" onChange={handleChecked} />
                 <label className='check__label' htmlFor='medical'>Medische Fiche</label>
               </div>
             </div>
@@ -676,7 +671,7 @@ const Edit = () => {
                 />
               </div>
             </div>
-            <div className='form-group mt-3'>
+            <div className='form-group mt-3 edit-create-validation'>
               <input
                 type='submit'
                 value='Gegevens Bijwerken'
@@ -685,7 +680,7 @@ const Edit = () => {
               <input
                 onClick={handleOnClick}
                 value='Home'
-                className='btn btn-secondary mx-3'
+                className='btn btn-secondary'
               />
             </div>
           </form>
