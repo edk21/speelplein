@@ -9,6 +9,7 @@ import LegalStatsTable from "./components/LegalStatsTable";
 import Navbar from "./components/Navbar";
 import NotFound from "./components/Notfound";
 import Stats from "./components/Stats";
+import Dashboard from "./components/Dashboard";
 
 function App() {
 
@@ -17,7 +18,8 @@ function App() {
       <div className='container'>
         <Navbar />
         <Routes>
-          <Route exact path='/' element={<ChildrenList />} />
+          <Route exact path='/' element={<Dashboard />} />
+          <Route exact path='/kinderList' element={<ChildrenList />} />
           <Route exact path='/qrGenerator' element={<GenerateQR />} />
           <Route exact path='/excelFile' element={<ExcelData />} />
           <Route exact path='/edit/:id' element={<Edit />} />
