@@ -2,10 +2,10 @@ import React from 'react'
 
 const Navbar = () => {
     return (
-      <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
+      <nav className='navbar navbar-expand-lg navbar-dark bg-primary sticky-top'>
         <div className='container-fluid'>
           <a href='/' className='navbar-brand'>
-            SpeelPlein Raccoons
+            SpeelPlein Raccoon
           </a>
           <button
             className='navbar-toggler'
@@ -22,6 +22,11 @@ const Navbar = () => {
             <ul className='navbar-nav mx-auto mb-2 mb-lg-0'>
               <li className='nav-item'>
                 <a href='/' className='nav-link active' aria-current='page'>
+                  Dashboard
+                </a>
+              </li>
+              <li className='nav-item'>
+                <a href='/kinderList' className='nav-link' aria-current='page'>
                   Kinderlist
                 </a>
               </li>
